@@ -20,16 +20,25 @@ class Avatarmessage
 	
 	/**
 	 * Erstellt eine Avatarnachricht zu einem anderen Avatar
-	 * @param integer $from_avatar_id
+	 * @param \DragonJsonServerAvatar\Entity\Avatar $from_avatar
 	 * @param integer $to_avatar_id
 	 * @param string $subject
 	 * @param string $content
 	 * @return Avatarmessage
 	 */
-	public function createAvatarmessage($from_avatar_id, $to_avatar_id, $subject, $content)
+	public function createAvatarmessage(\DragonJsonServerAvatar\Entity\Avatar $from_avatar, $to_avatar_id, $subject, $content)
 	{
+		$serviceManager = $this->getServiceManager();
+		
+		$to_avatar = $serviceManager->get('Avatar')->getAvatarByAvatarId($to_avatar_id);
+		if ($from_avatar->getGameroundId() != $to_avatar->getGameroundId()) {
+    		throw new \DragonJsonServer\Exception(
+    			'gameround_id not match',
+    			['from_avatar' => $from_avatar->toArray(), 'to_avatar' => $to_avatar->toArray()]
+    		);
+		}
 		$avatarmessage = (new \DragonJsonServerAvatarmessage\Entity\Avatarmessage())
-			->setFromAvatarId($from_avatar_id)
+			->setFromAvatarId($from_avatar->getAvatarId())
 			->setToAvatarId($to_avatar_id)
 			->setSubject($subject)
 			->setContent($content);

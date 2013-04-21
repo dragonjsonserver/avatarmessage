@@ -29,7 +29,7 @@ class Avatarmessage
 		$serviceManager = $this->getServiceManager();
 
 		$avatar = $serviceManager->get('Avatar')->getAvatar();
-		$serviceManager->get('Avatarmessage')->createAvatarmessage($avatar->getAvatarId(), $to_avatar_id, $subject, $content);
+		$serviceManager->get('Avatarmessage')->createAvatarmessage($avatar, $to_avatar_id, $subject, $content);
 	}
 	
 	/**
