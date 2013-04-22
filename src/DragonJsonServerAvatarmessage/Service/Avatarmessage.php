@@ -169,6 +169,20 @@ class Avatarmessage
 	}
 	
 	/**
+	 * Aktualisiert die übergebene Avatarnachricht in der Datenbank
+	 * @param \DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage
+	 * @return Avatarmessage
+	 */
+	public function updateAvatarmessage(\DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage)
+	{
+		$entityManager = $this->getEntityManager();
+	
+		$entityManager->persist($avatarmessage);
+		$entityManager->flush();
+		return $this;
+	}
+	
+	/**
 	 * Setzt den Status der Avatarnachricht auf gelesen 
 	 * @param integer $avatar_id
 	 * @param integer $avatarmessage_id
@@ -231,20 +245,6 @@ class Avatarmessage
 		} else {
 			$this->updateAvatarmessage($avatarmessage);
 		}
-		return $this;
-	}
-	
-	/**
-	 * Aktualisiert die übergebene Avatarnachricht in der Datenbank
-	 * @param \DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage
-	 * @return Avatarmessage
-	 */
-	public function updateAvatarmessage(\DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage)
-	{
-		$entityManager = $this->getEntityManager();
-	
-		$entityManager->persist($avatarmessage);
-		$entityManager->flush();
 		return $this;
 	}
 }
