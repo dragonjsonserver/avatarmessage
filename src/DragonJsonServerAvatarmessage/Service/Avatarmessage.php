@@ -68,7 +68,8 @@ class Avatarmessage
 		$avatarmessage = (new \DragonJsonServerAvatarmessage\Entity\Avatarmessage())
 			->setToAvatar($serviceManager->get('Avatar')->getAvatarByAvatarId($to_avatar_id))
 			->setSubject($subject)
-			->setContent($content);
+			->setContent($content)
+			->setFromState('delete');
 		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
 			$entityManager->persist($avatarmessage);
 			$entityManager->flush();
@@ -79,6 +80,19 @@ class Avatarmessage
 			);
 		});
 		return $this;
+	}
+	
+	/**
+	 * Entfernt die übergebene Avatarnachricht
+	 * @param \DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage
+	 * @return Avatarmessage
+	 */
+	public function removeAvatarmessage(\DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage)
+	{
+		$entityManager = $this->getEntityManager();
+		
+		$entityManager->remove($avatarmessage);
+		$entityManager->flush();
 	}
 	
 	/**
@@ -212,7 +226,11 @@ class Avatarmessage
     			['avatar_id' => $avatar_id, 'avatarmessage_id' => $avatarmessage_id]
     		);
 		}
-		$this->updateAvatarmessage($avatarmessage);
+		if ('delete' == $avatarmessage->getFromState() && 'delete' == $avatarmessage->getToState()) {
+			$this->removeAvatarmessage($avatarmessage);
+		} else {
+			$this->updateAvatarmessage($avatarmessage);
+		}
 		return $this;
 	}
 	
