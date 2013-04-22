@@ -14,6 +14,8 @@ namespace DragonJsonServerAvatarmessage;
  */
 class Module
 {
+    use \DragonJsonServer\ServiceManagerTrait;
+    
     /**
      * Gibt die Konfiguration des Moduls zurück
      * @return array
@@ -36,5 +38,20 @@ class Module
                 ],
             ],
         ];
+    }
+    
+    /**
+     * Wird bei der Initialisierung des Moduls aufgerufen
+     * @param \Zend\ModuleManager\ModuleManager $moduleManager
+     */
+    public function init(\Zend\ModuleManager\ModuleManager $moduleManager)
+    {
+    	$sharedManager = $moduleManager->getEventManager()->getSharedManager();
+    	$sharedManager->attach('DragonJsonServerAvatar\Service\Avatar', 'removeavatar', 
+	    	function (\DragonJsonServerAvatar\Event\RemoveAvatar $removeAvatar) {
+	    		$serviceAvatarmessage = $this->getServiceManager()->get('Avatarmessage');
+	    		$serviceAvatarmessage->removeAvatarmessagesByAvatarId($removeAvatar->getAvatar()->getAvatarId());
+	    	}
+    	);
     }
 }

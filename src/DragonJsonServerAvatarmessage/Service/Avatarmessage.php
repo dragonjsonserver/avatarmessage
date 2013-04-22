@@ -82,6 +82,26 @@ class Avatarmessage
 	}
 	
 	/**
+	 * Entfernt alle Avatarnachrichten zu und von der AvatarID
+	 * @param integer $avatar_id
+	 * @return Avatarmessage
+	 */
+	public function removeAvatarmessagesByAvatarId($avatar_id)
+	{
+		$entityManager = $this->getEntityManager();
+		
+		$entityManager
+			->createQuery('
+				DELETE FROM \DragonJsonServerAvatarmessage\Entity\Avatarmessage avatarmessage
+				WHERE 
+					avatarmessage.from_avatar = :avatar_id
+					OR
+					avatarmessage.to_avatar = :avatar_id
+			')
+			->execute(['avatar_id' => $avatar_id]);
+	}
+	
+	/**
 	 * Gibt alle Avatarnachrichten zum aktuellen Avatar zurück
 	 * @param integer $avatar_id
 	 * @return array
