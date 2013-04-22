@@ -27,14 +27,16 @@ class Avatarmessage
 	protected $avatarmessage_id;
 	
 	/**
-	 * @Doctrine\ORM\Mapping\Column(type="integer")
+	 * @Doctrine\ORM\Mapping\OneToOne(targetEntity="\DragonJsonServerAvatar\Entity\Avatar")
+	 * @Doctrine\ORM\Mapping\JoinColumn(name="from_avatar_id", referencedColumnName="avatar_id")
 	 **/
-	protected $from_avatar_id;
+	protected $from_avatar;
 	
 	/**
-	 * @Doctrine\ORM\Mapping\Column(type="integer")
+	 * @Doctrine\ORM\Mapping\OneToOne(targetEntity="\DragonJsonServerAvatar\Entity\Avatar")
+	 * @Doctrine\ORM\Mapping\JoinColumn(name="to_avatar_id", referencedColumnName="avatar_id")
 	 **/
-	protected $to_avatar_id;
+	protected $to_avatar;
 	
 	/**
 	 * @Doctrine\ORM\Mapping\Column(type="string")
@@ -66,43 +68,43 @@ class Avatarmessage
 	}
 	
 	/**
-	 * Setzt die AvatarID des Absenders der Avatarnachricht
-	 * @param integer $from_avatar_id
+	 * Setzt den Avatar des Absenders der Avatarnachricht
+	 * @param \DragonJsonServerAvatar\Entity\Avatar $from_avatar
 	 * @return Avatarmessage
 	 */
-	public function setFromAvatarId($from_avatar_id)
+	public function setFromAvatar(\DragonJsonServerAvatar\Entity\Avatar $from_avatar)
 	{
-		$this->from_avatar_id = $from_avatar_id;
+		$this->from_avatar = $from_avatar;
 		return $this;
 	}
 	
 	/**
-	 * Gibt die AvatarID des Absenders der Avatarnachricht zurück
-	 * @return integer
+	 * Gibt den Avatar des Absenders der Avatarnachricht zurück
+	 * @return \DragonJsonServerAvatar\Entity\Avatar
 	 */
-	public function getFromAvatarId()
+	public function getFromAvatar()
 	{
-		return $this->from_avatar_id;
+		return $this->from_avatar;
 	}
 	
 	/**
-	 * Setzt die AvatarID des Empfängers der Avatarnachricht
-	 * @param integer $to_avatar_id
+	 * Setzt den Avatar des Empfängers der Avatarnachricht
+	 * @param \DragonJsonServerAvatar\Entity\Avatar $to_avatar
 	 * @return Avatarmessage
 	 */
-	public function setToAvatarId($to_avatar_id)
+	public function setToAvatar($to_avatar)
 	{
-		$this->to_avatar_id = $to_avatar_id;
+		$this->to_avatar = $to_avatar;
 		return $this;
 	}
 	
 	/**
-	 * Gibt die AvatarID des Empfängers der Avatarnachricht zurück
-	 * @return integer
+	 * Gibt den Avatar des Empfängers der Avatarnachricht zurück
+	 * @return \DragonJsonServerAvatar\Entity\Avatar
 	 */
-	public function getToAvatarId()
+	public function getToAvatar()
 	{
-		return $this->to_avatar_id;
+		return $this->to_avatar;
 	}
 	
 	/**
@@ -195,8 +197,8 @@ class Avatarmessage
 			'avatarmessage_id' => $this->getAvatarmessageId(),
 			'modified' => $this->getModifiedTimestamp(),
 			'created' => $this->getCreatedTimestamp(),
-			'from_avatar_id' => $this->getFromAvatarId(),
-			'to_avatar_id' => $this->getToAvatarId(),
+			'from_avatar' => $this->getFromAvatar()->toArray(),
+			'to_avatar' => $this->getToAvatar()->toArray(),
 			'subject' => $this->getSubject(),
 			'content' => $this->getContent(),
 			'from_state' => $this->getFromState(),

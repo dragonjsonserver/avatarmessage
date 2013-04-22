@@ -38,8 +38,8 @@ class Avatarmessage
     		);
 		}
 		$avatarmessage = (new \DragonJsonServerAvatarmessage\Entity\Avatarmessage())
-			->setFromAvatarId($from_avatar->getAvatarId())
-			->setToAvatarId($to_avatar_id)
+			->setFromAvatar($from_avatar)
+			->setToAvatar($to_avatar)
 			->setSubject($subject)
 			->setContent($content);
 		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
@@ -67,7 +67,7 @@ class Avatarmessage
 			->createQuery("
 				SELECT avatarmessage FROM \DragonJsonServerAvatarmessage\Entity\Avatarmessage avatarmessage
 				WHERE 
-					avatarmessage.to_avatar_id = :to_avatar_id
+					avatarmessage.to_avatar = :to_avatar_id
 					AND
 					avatarmessage.to_state IN ('new', 'read')
 			")
@@ -85,7 +85,7 @@ class Avatarmessage
 		
 		return $entityManager
 			->getRepository('\DragonJsonServerAvatarmessage\Entity\Avatarmessage')
-		    ->findBy(['from_avatar_id' => $avatar_id, 'from_state' => 'read']);
+		    ->findBy(['from_avatar' => $avatar_id, 'from_state' => 'read']);
 	}
 	
 	/**
@@ -116,7 +116,7 @@ class Avatarmessage
 	public function readAvatarmessage($avatar_id, $avatarmessage_id)
 	{
 		$avatarmessage = $this->getAvatarmessageByAvatarmessageId($avatarmessage_id);
-		if ($avatarmessage->getToAvatarId() == $avatar_id) {
+		if ($avatarmessage->getToAvatar()->getAvatarId() == $avatar_id) {
 			if ('new' != $avatarmessage->getToState()) {
 				throw new \DragonJsonServer\Exception(
 	    			'state already read or delete',
@@ -143,7 +143,7 @@ class Avatarmessage
 	public function deleteAvatarmessage($avatar_id, $avatarmessage_id)
 	{
 		$avatarmessage = $this->getAvatarmessageByAvatarmessageId($avatarmessage_id);
-		if ($avatarmessage->getFromAvatarId() == $avatar_id) {
+		if ($avatarmessage->getFromAvatar()->getAvatarId() == $avatar_id) {
 			if ('delete' == $avatarmessage->getFromState()) {
 				throw new \DragonJsonServer\Exception(
 	    			'state already delete',
@@ -151,7 +151,7 @@ class Avatarmessage
 	    		);
 			}
 			$avatarmessage->setFromState('delete');
-		} elseif ($avatarmessage->getToAvatarId() == $avatar_id) {
+		} elseif ($avatarmessage->getToAvatar()->getAvatarId() == $avatar_id) {
 			if ('delete' == $avatarmessage->getToState()) {
 				throw new \DragonJsonServer\Exception(
 	    			'state already delete',
