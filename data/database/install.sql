@@ -2,7 +2,7 @@ CREATE TABLE `avatarmessages` (
 	`avatarmessage_id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`modified` TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW(),
 	`created` TIMESTAMP NOT NULL DEFAULT '0000-00-00 00:00:00',
-	`from_avatar_id` BIGINT(20) UNSIGNED NOT NULL,
+	`from_avatar_id` BIGINT(20) UNSIGNED NULL,
 	`to_avatar_id` BIGINT(20) UNSIGNED NOT NULL,
 	`subject` VARCHAR(255) NOT NULL,
 	`content` TEXT NOT NULL,

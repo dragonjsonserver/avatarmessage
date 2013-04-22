@@ -55,6 +55,33 @@ class Avatarmessage
 	}
 	
 	/**
+	 * Erstellt eine Systemnachricht zu einem Avatar
+	 * @param integer $to_avatar_id
+	 * @param string $subject
+	 * @param string $content
+	 * @return Avatarmessage
+	 */
+	public function createSystemmessage($to_avatar_id, $subject, $content)
+	{
+		$serviceManager = $this->getServiceManager();
+		
+		$avatarmessage = (new \DragonJsonServerAvatarmessage\Entity\Avatarmessage())
+			->setToAvatar($serviceManager->get('Avatar')->getAvatarByAvatarId($to_avatar_id))
+			->setSubject($subject)
+			->setContent($content);
+		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
+			$entityManager->persist($avatarmessage);
+			$entityManager->flush();
+			$this->getEventManager()->trigger(
+				(new \DragonJsonServerAvatarmessage\Event\CreateAvatarmessage())
+					->setTarget($this)
+					->setAvatarmessage($avatarmessage)
+			);
+		});
+		return $this;
+	}
+	
+	/**
 	 * Gibt alle Avatarnachrichten zum aktuellen Avatar zurück
 	 * @param integer $avatar_id
 	 * @return array

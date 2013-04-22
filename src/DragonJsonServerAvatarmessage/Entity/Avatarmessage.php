@@ -80,11 +80,24 @@ class Avatarmessage
 	
 	/**
 	 * Gibt den Avatar des Absenders der Avatarnachricht zurück
-	 * @return \DragonJsonServerAvatar\Entity\Avatar
+	 * @return \DragonJsonServerAvatar\Entity\Avatar|null
 	 */
 	public function getFromAvatar()
 	{
 		return $this->from_avatar;
+	}
+	
+	/**
+	 * Gibt die Avatardaten des Absenders der Avatarnachricht zurück
+	 * @return array|null
+	 */
+	public function getFromAvatarArray()
+	{
+		$from_avatar = $this->getFromAvatar();
+		if (null !== $from_avatar) {
+			$from_avatar = $from_avatar->toArray();
+		}
+		return $from_avatar;
 	}
 	
 	/**
@@ -197,7 +210,7 @@ class Avatarmessage
 			'avatarmessage_id' => $this->getAvatarmessageId(),
 			'modified' => $this->getModifiedTimestamp(),
 			'created' => $this->getCreatedTimestamp(),
-			'from_avatar' => $this->getFromAvatar()->toArray(),
+			'from_avatar' => $this->getFromAvatarArray(),
 			'to_avatar' => $this->getToAvatar()->toArray(),
 			'subject' => $this->getSubject(),
 			'content' => $this->getContent(),
