@@ -11,6 +11,9 @@
  * @return array
  */
 return [
+	'dragonjsonserveravatarmessage' => [
+	    'clientmessages' => true,
+	],
 	'dragonjsonserver' => [
 	    'apiclasses' => [
 	        '\DragonJsonServerAvatarmessage\Api\Avatarmessage' => 'Avatarmessage',

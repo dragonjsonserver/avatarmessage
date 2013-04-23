@@ -47,6 +47,25 @@ class Module
     public function init(\Zend\ModuleManager\ModuleManager $moduleManager)
     {
     	$sharedManager = $moduleManager->getEventManager()->getSharedManager();
+    	$sharedManager->attach('DragonJsonServer\Service\Clientmessages', 'clientmessages', 
+	    	function (\DragonJsonServer\Event\Clientmessages $clientmessages) {
+	    		$serviceManager = $this->getServiceManager();
+	    		if (!$serviceManager->get('Config')['dragonjsonserveravatarmessage']['clientmessages']) {
+	    			return;
+	    		}
+	    		$avatar = $serviceManager->get('Avatar')->getAvatar();
+	    		if (null === $avatar) {
+	    			return;
+	    		}
+	    		$serviceAvatarmessage = $serviceManager->get('Avatarmessage');
+	    		$avatarmessages = $serviceAvatarmessage->getAvatarmessagesByClientmessages($avatar, $clientmessages);
+	    		if (count($avatarmessages) == 0) {
+	    			return;
+	    		}
+	    		$avatarmessages = $serviceManager->get('Doctrine')->toArray($avatarmessages);
+	    		$serviceManager->get('Clientmessages')->addClientmessage('avatarmassages', $avatarmessages);
+	    	}
+    	);
     	$sharedManager->attach('DragonJsonServerAvatar\Service\Avatar', 'removeavatar', 
 	    	function (\DragonJsonServerAvatar\Event\RemoveAvatar $removeAvatar) {
 	    		$serviceAvatarmessage = $this->getServiceManager()->get('Avatarmessage');

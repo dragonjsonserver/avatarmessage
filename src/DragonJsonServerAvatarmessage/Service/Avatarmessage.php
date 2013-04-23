@@ -169,6 +169,34 @@ class Avatarmessage
 	}
 	
 	/**
+	 * Gibt die Avatarnachrichten für den Avatar und die Clientmessages zurück
+	 * @param \DragonJsonServerAvatar\Entity\Avatar $avatar
+	 * @param \DragonJsonServer\Event\Clientmessages $clientmessages
+	 * @return array
+	 */
+	public function getAvatarmessagesByClientmessages(\DragonJsonServerAvatar\Entity\Avatar $avatar, 
+													  \DragonJsonServer\Event\Clientmessages $clientmessages)
+	{
+		$entityManager = $this->getEntityManager();
+
+		return $entityManager
+			->createQuery("
+				SELECT avatarmessage FROM \DragonJsonServerAvatarmessage\Entity\Avatarmessage avatarmessage
+				WHERE
+					avatarmessage.to_avatar = :to_avatar_id
+					AND
+					avatarmessage.to_state = 'new'
+					AND
+					avatarmessage.created >= :from AND avatarmessage.created < :to 
+			")
+			->execute([
+				'to_avatar_id' => $avatar->getAvatarId(), 
+				'from' => $clientmessages->getFrom(), 
+				'to' => $clientmessages->getTo(),
+			]);
+	}
+	
+	/**
 	 * Aktualisiert die übergebene Avatarnachricht in der Datenbank
 	 * @param \DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage
 	 * @return Avatarmessage
