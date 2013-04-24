@@ -171,11 +171,11 @@ class Avatarmessage
 	/**
 	 * Gibt die Avatarnachrichten für den Avatar und die Clientmessages zurück
 	 * @param \DragonJsonServerAvatar\Entity\Avatar $avatar
-	 * @param \DragonJsonServer\Event\Clientmessages $clientmessages
+	 * @param \DragonJsonServer\Event\Clientmessages $eventClientmessages
 	 * @return array
 	 */
-	public function getAvatarmessagesByClientmessages(\DragonJsonServerAvatar\Entity\Avatar $avatar, 
-													  \DragonJsonServer\Event\Clientmessages $clientmessages)
+	public function getAvatarmessagesByEventClientmessages(\DragonJsonServerAvatar\Entity\Avatar $avatar, 
+														   \DragonJsonServer\Event\Clientmessages $eventClientmessages)
 	{
 		$entityManager = $this->getEntityManager();
 
@@ -191,8 +191,8 @@ class Avatarmessage
 			")
 			->execute([
 				'to_avatar_id' => $avatar->getAvatarId(), 
-				'from' => $clientmessages->getFrom(), 
-				'to' => $clientmessages->getTo(),
+				'from' => $eventClientmessages->getFrom(), 
+				'to' => $eventClientmessages->getTo(),
 			]);
 	}
 	

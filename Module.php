@@ -48,7 +48,7 @@ class Module
     {
     	$sharedManager = $moduleManager->getEventManager()->getSharedManager();
     	$sharedManager->attach('DragonJsonServer\Service\Clientmessages', 'clientmessages', 
-	    	function (\DragonJsonServer\Event\Clientmessages $clientmessages) {
+	    	function (\DragonJsonServer\Event\Clientmessages $eventClientmessages) {
 	    		$serviceManager = $this->getServiceManager();
 	    		if (!$serviceManager->get('Config')['dragonjsonserveravatarmessage']['clientmessages']) {
 	    			return;
@@ -58,7 +58,7 @@ class Module
 	    			return;
 	    		}
 	    		$serviceAvatarmessage = $serviceManager->get('Avatarmessage');
-	    		$avatarmessages = $serviceAvatarmessage->getAvatarmessagesByClientmessages($avatar, $clientmessages);
+	    		$avatarmessages = $serviceAvatarmessage->getAvatarmessagesByEventClientmessages($avatar, $eventClientmessages);
 	    		if (count($avatarmessages) == 0) {
 	    			return;
 	    		}
@@ -67,9 +67,9 @@ class Module
 	    	}
     	);
     	$sharedManager->attach('DragonJsonServerAvatar\Service\Avatar', 'removeavatar', 
-	    	function (\DragonJsonServerAvatar\Event\RemoveAvatar $removeAvatar) {
+	    	function (\DragonJsonServerAvatar\Event\RemoveAvatar $eventRemoveAvatar) {
 	    		$serviceAvatarmessage = $this->getServiceManager()->get('Avatarmessage');
-	    		$serviceAvatarmessage->removeAvatarmessagesByAvatarId($removeAvatar->getAvatar()->getAvatarId());
+	    		$serviceAvatarmessage->removeAvatarmessagesByAvatarId($eventRemoveAvatar->getAvatar()->getAvatarId());
 	    	}
     	);
     }

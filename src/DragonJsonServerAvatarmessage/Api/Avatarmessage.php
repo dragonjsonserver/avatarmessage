@@ -90,4 +90,3 @@ class Avatarmessage
 		$serviceManager->get('Avatarmessage')->deleteAvatarmessage($avatar->getAvatarId(), $avatarmessage_id);
 	}
 }
-
