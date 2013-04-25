@@ -89,10 +89,15 @@ class Avatarmessage
 	 */
 	public function removeAvatarmessage(\DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage)
 	{
-		$entityManager = $this->getEntityManager();
-		
-		$entityManager->remove($avatarmessage);
-		$entityManager->flush();
+		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
+			$this->getEventManager()->trigger(
+				(new \DragonJsonServerAvatarmessage\Event\RemoveAvatarmessage())
+					->setTarget($this)
+					->setAvatarmessage($avatarmessage)
+			);
+			$entityManager->remove($avatarmessage);
+			$entityManager->flush();
+		});
 	}
 	
 	/**
@@ -104,15 +109,18 @@ class Avatarmessage
 	{
 		$entityManager = $this->getEntityManager();
 		
-		$entityManager
+		$avatarmessages = $entityManager
 			->createQuery('
-				DELETE FROM \DragonJsonServerAvatarmessage\Entity\Avatarmessage avatarmessage
+				SELECT avatarmessage FROM \DragonJsonServerAvatarmessage\Entity\Avatarmessage avatarmessage
 				WHERE 
 					avatarmessage.from_avatar = :avatar_id
 					OR
 					avatarmessage.to_avatar = :avatar_id
 			')
 			->execute(['avatar_id' => $avatar_id]);
+		foreach ($avatarmessages as $avatarmessage) {
+			$this->removeAvatarmessage($avatarmessage);
+		}
 	}
 	
 	/**
