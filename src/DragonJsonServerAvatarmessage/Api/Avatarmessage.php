@@ -21,8 +21,8 @@ class Avatarmessage
 	 * @param integer $to_avatar_id
 	 * @param string $subject
 	 * @param string $content
-	 * @session
-	 * @avatar
+	 * @DragonJsonServerAccount\Annotation\Session
+	 * @DragonJsonServerAvatar\Annotation\Avatar
 	 */
 	public function createAvatarmessage($to_avatar_id, $subject, $content)
 	{
@@ -35,8 +35,8 @@ class Avatarmessage
 	/**
 	 * Gibt alle Avatarnachrichten zum aktuellen Avatar zurück
 	 * @return array
-	 * @session
-	 * @avatar
+	 * @DragonJsonServerAccount\Annotation\Session
+	 * @DragonJsonServerAvatar\Annotation\Avatar
 	 */
 	public function getInbox()
 	{
@@ -50,8 +50,8 @@ class Avatarmessage
 	/**
 	 * Gibt alle Avatarnachrichten vom aktuellen Avatar zurück
 	 * @return array
-	 * @session
-	 * @avatar
+	 * @DragonJsonServerAccount\Annotation\Session
+	 * @DragonJsonServerAvatar\Annotation\Avatar
 	 */
 	public function getOutbox()
 	{
@@ -65,8 +65,8 @@ class Avatarmessage
 	/**
 	 * Setzt den Status der Avatarnachricht auf gelesen 
 	 * @param integer $avatarmessage_id
-	 * @session
-	 * @avatar
+	 * @DragonJsonServerAccount\Annotation\Session
+	 * @DragonJsonServerAvatar\Annotation\Avatar
 	 */
 	public function readAvatarmessage($avatarmessage_id)
 	{
@@ -79,8 +79,8 @@ class Avatarmessage
 	/**
 	 * Setzt den Status der Avatarnachricht auf gelöscht 
 	 * @param integer $avatarmessage_id
-	 * @session
-	 * @avatar
+	 * @DragonJsonServerAccount\Annotation\Session
+	 * @DragonJsonServerAvatar\Annotation\Avatar
 	 */
 	public function deleteAvatarmessage($avatarmessage_id)
 	{
