@@ -166,12 +166,9 @@ class Avatarmessage
 	{
 		$entityManager = $this->getEntityManager();
 
-		$conditions = ['avatarmessage_id' => $avatarmessage_id];
-		$avatarmessage = $entityManager
-			->getRepository('\DragonJsonServerAvatarmessage\Entity\Avatarmessage')
-			->findOneBy($conditions);
+		$avatarmessage = $entityManager->find('\DragonJsonServerAvatarmessage\Entity\Avatarmessage', $avatarmessage_id);
 		if (null === $avatarmessage) {
-			throw new \DragonJsonServer\Exception('invalid avatarmessage_id', $conditions);
+			throw new \DragonJsonServer\Exception('invalid avatarmessage_id', ['avatarmessage_id' => $avatarmessage_id]);
 		}
 		return $avatarmessage;
 	}
