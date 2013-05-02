@@ -98,6 +98,7 @@ class Avatarmessage
 			$entityManager->remove($avatarmessage);
 			$entityManager->flush();
 		});
+		return $this;
 	}
 	
 	/**

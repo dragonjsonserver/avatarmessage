@@ -59,7 +59,7 @@ class Module
 	    		}
 	    		$serviceAvatarmessage = $serviceManager->get('Avatarmessage');
 	    		$avatarmessages = $serviceAvatarmessage->getAvatarmessagesByEventClientmessages($avatar, $eventClientmessages);
-	    		if (count($avatarmessages) == 0) {
+	    		if (0 == count($avatarmessages)) {
 	    			return;
 	    		}
 	    		$avatarmessages = $serviceManager->get('Doctrine')->toArray($avatarmessages);
