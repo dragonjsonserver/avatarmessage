@@ -17,7 +17,7 @@ class RemoveAvatarmessage extends \Zend\EventManager\Event
 	/**
 	 * @var string
 	 */
-	protected $name = 'removeavatarmessage';
+	protected $name = 'RemoveAvatarmessage';
 
     /**
      * Setzt die Avatarnachricht die entfernt wird

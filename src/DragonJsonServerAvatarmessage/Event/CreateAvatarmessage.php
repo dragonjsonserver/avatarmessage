@@ -17,7 +17,7 @@ class CreateAvatarmessage extends \Zend\EventManager\Event
 	/**
 	 * @var string
 	 */
-	protected $name = 'createavatarmessage';
+	protected $name = 'CreateAvatarmessage';
 
     /**
      * Setzt die Avatarnachricht die erstellt wurde
