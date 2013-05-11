@@ -207,6 +207,7 @@ class Avatarmessage
 	public function toArray()
 	{
 		return [
+			'entity' => 'Avatarmessage',
 			'avatarmessage_id' => $this->getAvatarmessageId(),
 			'modified' => $this->getModifiedTimestamp(),
 			'created' => $this->getCreatedTimestamp(),
