@@ -59,6 +59,17 @@ class Avatarmessage
 	protected $to_state = 'new';
 	
 	/**
+	 * Setzt die ID der Avatarnachricht
+	 * @param integer $avatarmessage_id
+	 * @return Avatarmessage
+	 */
+	protected function setAvatarmessageId($avatarmessage_id)
+	{
+		$this->avatarmessage_id = $avatarmessage_id;
+		return $this;
+	}
+	
+	/**
 	 * Gibt die ID der Avatarnachricht zurück
 	 * @return integer
 	 */
@@ -201,13 +212,34 @@ class Avatarmessage
 	}
 	
 	/**
+	 * Setzt die Attribute der Avatarnachricht aus dem Array
+	 * @param array $array
+	 * @return Avatarmessage
+	 */
+	public function fromArray(array $array)
+	{
+		if (null !== $array['from_avatar']) {
+			$this->setFromAvatar((new \DragonJsonServerAvatar\Entity\Avatar())->fromArray($array['from_avatar']));
+		}
+		return $this
+			->setAvatarmessageId($array['avatarmessage_id'])
+			->setModifiedTimestamp($array['modified'])
+			->setCreatedTimestamp($array['created'])
+			->setToAvatar((new \DragonJsonServerAvatar\Entity\Avatar())->fromArray($array['to_avatar']))
+			->setSubject($array['subject'])
+			->setContent($array['content'])
+			->setFromState($array['from_state'])
+			->setToState($array['to_state']);
+	}
+	
+	/**
 	 * Gibt die Attribute der Avatarnachricht als Array zurück
 	 * @return array
 	 */
 	public function toArray()
 	{
 		return [
-			'entity' => 'Avatarmessage',
+			'__className' => __CLASS__,
 			'avatarmessage_id' => $this->getAvatarmessageId(),
 			'modified' => $this->getModifiedTimestamp(),
 			'created' => $this->getCreatedTimestamp(),
