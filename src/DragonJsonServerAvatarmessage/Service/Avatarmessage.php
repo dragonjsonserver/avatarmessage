@@ -30,7 +30,7 @@ class Avatarmessage
 	{
 		$serviceManager = $this->getServiceManager();
 		
-		$to_avatar = $serviceManager->get('Avatar')->getAvatarByAvatarId($to_avatar_id);
+		$to_avatar = $serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatarByAvatarId($to_avatar_id);
 		if ($from_avatar->getGameroundId() != $to_avatar->getGameroundId()) {
     		throw new \DragonJsonServer\Exception(
     			'gameround_id not match',
@@ -42,7 +42,7 @@ class Avatarmessage
 			->setToAvatar($to_avatar)
 			->setSubject($subject)
 			->setContent($content);
-		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
+		$this->getServiceManager()->get('\DragonJsonServerDoctrine\Service\Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
 			$entityManager->persist($avatarmessage);
 			$entityManager->flush();
 			$this->getEventManager()->trigger(
@@ -66,11 +66,11 @@ class Avatarmessage
 		$serviceManager = $this->getServiceManager();
 		
 		$avatarmessage = (new \DragonJsonServerAvatarmessage\Entity\Avatarmessage())
-			->setToAvatar($serviceManager->get('Avatar')->getAvatarByAvatarId($to_avatar_id))
+			->setToAvatar($serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatarByAvatarId($to_avatar_id))
 			->setSubject($subject)
 			->setContent($content)
 			->setFromState('delete');
-		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
+		$this->getServiceManager()->get('\DragonJsonServerDoctrine\Service\Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
 			$entityManager->persist($avatarmessage);
 			$entityManager->flush();
 			$this->getEventManager()->trigger(
@@ -89,7 +89,7 @@ class Avatarmessage
 	 */
 	public function removeAvatarmessage(\DragonJsonServerAvatarmessage\Entity\Avatarmessage $avatarmessage)
 	{
-		$this->getServiceManager()->get('Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
+		$this->getServiceManager()->get('\DragonJsonServerDoctrine\Service\Doctrine')->transactional(function ($entityManager) use ($avatarmessage) {
 			$this->getEventManager()->trigger(
 				(new \DragonJsonServerAvatarmessage\Event\RemoveAvatarmessage())
 					->setTarget($this)

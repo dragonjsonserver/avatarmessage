@@ -28,8 +28,8 @@ class Avatarmessage
 	{
 		$serviceManager = $this->getServiceManager();
 
-		$avatar = $serviceManager->get('Avatar')->getAvatar();
-		$serviceManager->get('Avatarmessage')->createAvatarmessage($avatar, $to_avatar_id, $subject, $content);
+		$avatar = $serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatar();
+		$serviceManager->get('\DragonJsonServerAvatarmessage\Service\Avatarmessage')->createAvatarmessage($avatar, $to_avatar_id, $subject, $content);
 	}
 	
 	/**
@@ -42,9 +42,9 @@ class Avatarmessage
 	{
 		$serviceManager = $this->getServiceManager();
 
-		$avatar = $serviceManager->get('Avatar')->getAvatar();
-		$avatarmessages = $serviceManager->get('Avatarmessage')->getInbox($avatar->getAvatarId());
-		return $serviceManager->get('Doctrine')->toArray($avatarmessages);
+		$avatar = $serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatar();
+		$avatarmessages = $serviceManager->get('\DragonJsonServerAvatarmessage\Service\Avatarmessage')->getInbox($avatar->getAvatarId());
+		return $serviceManager->get('\DragonJsonServerDoctrine\Service\Doctrine')->toArray($avatarmessages);
 	}
 	
 	/**
@@ -57,9 +57,9 @@ class Avatarmessage
 	{
 		$serviceManager = $this->getServiceManager();
 
-		$avatar = $serviceManager->get('Avatar')->getAvatar();
-		$avatarmessages = $serviceManager->get('Avatarmessage')->getOutbox($avatar->getAvatarId());
-		return $serviceManager->get('Doctrine')->toArray($avatarmessages);
+		$avatar = $serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatar();
+		$avatarmessages = $serviceManager->get('\DragonJsonServerAvatarmessage\Service\Avatarmessage')->getOutbox($avatar->getAvatarId());
+		return $serviceManager->get('\DragonJsonServerDoctrine\Service\Doctrine')->toArray($avatarmessages);
 	}
 	
 	/**
@@ -72,8 +72,8 @@ class Avatarmessage
 	{
 		$serviceManager = $this->getServiceManager();
 
-		$avatar = $serviceManager->get('Avatar')->getAvatar();
-		$serviceManager->get('Avatarmessage')->readAvatarmessage($avatar->getAvatarId(), $avatarmessage_id);
+		$avatar = $serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatar();
+		$serviceManager->get('\DragonJsonServerAvatarmessage\Service\Avatarmessage')->readAvatarmessage($avatar->getAvatarId(), $avatarmessage_id);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ class Avatarmessage
 	{
 		$serviceManager = $this->getServiceManager();
 
-		$avatar = $serviceManager->get('Avatar')->getAvatar();
-		$serviceManager->get('Avatarmessage')->deleteAvatarmessage($avatar->getAvatarId(), $avatarmessage_id);
+		$avatar = $serviceManager->get('\DragonJsonServerAvatar\Service\Avatar')->getAvatar();
+		$serviceManager->get('\DragonJsonServerAvatarmessage\Service\Avatarmessage')->deleteAvatarmessage($avatar->getAvatarId(), $avatarmessage_id);
 	}
 }

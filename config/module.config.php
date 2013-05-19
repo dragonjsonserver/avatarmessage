@@ -21,7 +21,7 @@ return [
 	],
 	'service_manager' => [
 		'invokables' => [
-            'Avatarmessage' => '\DragonJsonServerAvatarmessage\Service\Avatarmessage',
+            '\DragonJsonServerAvatarmessage\Service\Avatarmessage' => '\DragonJsonServerAvatarmessage\Service\Avatarmessage',
 		],
 	],
 	'doctrine' => [
